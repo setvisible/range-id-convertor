@@ -1,5 +1,29 @@
-# C++ objects and libs
+# ==============================================================================
+# Below we forbid everything and only allow what we know, that's much easier
+# than blocking about 500 different test files and bug report outputs.
+# ==============================================================================
+/.*
+/*
+!/include
+!/src
+!/test
+!/.gitignore
+!/LICENSE
+!/NEWS
+!/RangeIDConvertor.pro
+!/README.md
+!/VERSION
 
+
+# =======================================
+# Reject some generic files
+# =======================================
+*~
+*.rej
+*.orig
+*.bak
+
+# C++ objects and libs
 *.slo
 *.lo
 *.o
@@ -7,7 +31,7 @@
 *.la
 *.lai
 *.so
-*.dll
+# *.dll
 *.dylib
 
 # Qt-es
@@ -34,5 +58,10 @@ Makefile*
 *.qmlproject.user.*
 
 # QtCtreator CMake
-CMakeLists.txt.user
+CMakeLists.txt.user*
+
+# =======================================
+# And reject some specific files
+# =======================================
+/scripts
 
