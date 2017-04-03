@@ -5,9 +5,9 @@
 
 **RangeIDConvertor** is a solution for converting identifier ranges from [FEA](https://en.wikipedia.org/wiki/Finite_element_analysis "Finite Element Analysis (FEA)") softwares.
 
-Basically, it converts a range of identifiers [1] (ex: node, element, material, .. property ID) from various formats used by Patran, Femap, HyperMesh, Ansys, Calc and Excel.
+Basically, **it converts a range of identifiers** [1] (ex: node, element, material, .. property ID) from various formats used by *Patran*, *Femap*, *Abaqus*, *HyperMesh*, *Ansys*, *Calc* and *Excel*.
 
-[1] See glossary at the end of this document
+[1] See *glossary* at the end of this document
 
 
 ## Description
@@ -36,11 +36,16 @@ Moreover, these ID ranges are often *packed*. This makes unpacking quite **unfri
         31292327
 
 
-As you see here, some identifiers are still *packed* (lines 3 and 6).
+As you see here, some identifiers are *packed* (here, lines 3 and 6).
 
 *D'oh!*
 
-The solution is to paste the identifiers in **RangeIDConvertor** before, to get them unpacked.
+How to expand them quickly?
+
+The solution is to paste the identifiers in **RangeIDConvertor**.
+
+- RangeIDConvertor expands the ID ranges.
+- RangeIDConvertor converts them to the specific format of a pre/post-processing tool.
 
 
 ## Installation
@@ -60,74 +65,89 @@ Just copy-n-paste:
 
 ## Format diversity
 
-In the following examples, we consider the same list of identifiers: `"100, 101, 102, 109, 110, 115, 123, 131"` and demonstrate how the FEM softwares read them and the format diversity.
+This section presents different formats, often encountered by stress analysts.
 
+Remark: In the following examples, we consider the same list of identifiers: `100, 101, 102, 109, 110, 115, 123, 131` and demonstrate how the FEM softwares read them and the format diversity.
 
 
 ### Nastran Bulk File Format
 
  - from the Nastran file (comma-separated format):
 
-        "100,THRU,102,109,110,115,THRU,131,BY,8"
+        100,THRU,102,109,110,115,THRU,131,BY,8
 
- - from the Nastran file (small field format):
+ - from the Nastran file (small field format with continuation):
 
-        "                                     100    THRU     102     109+"
-        "+            110     115    THRU     131    STEP       8  EXCEPT+"
-        "+            130"
-
+                                             100    THRU     102     109+
+        +            110     115    THRU     131    STEP       8  EXCEPT+
+        +            130
 
 
 ### Patran Format
 
  - from the GUI:
 
-        "Elm 100:102 109 110 115:131:8"
+        Node 100:102 Elm 109 110 MPC 115:131:8
+
+ - from the GUI (another format):
+
+        n 100:102 e 109 110 MPC 115:131:8
 
 
 ### Patran Session File Format
 
- - from the *.ses file:
+ - from the *.ses group file :
 
-        "100,101,102,109,\\"
-        "110,115,123,131,\\"
-
- - from the *.grp file:
-
-        "100:102 109 110"
-        "115 123 131"
+        ga_group_create( "My group" )
+        ga_group_entity_add( "My group", " Node 100:102 " // @
+        "109 110 115 123 " // @
+        "131") // @
 
 
-
-### FEMAP
+### Femap Format
 
  - from the GUI:
 
-        "100,101,102,109,110,115,123,131"
-        "100:102,109,110,115:131:8"
-        "102:100:-1,109,110,131:115:-8" is also valid.
+        100,101,102,109,110,115,123,131
+
+ - from the GUI (another format):
+
+        100:102,109,110,115:131:8
+
+ - from the GUI (another format):
+
+        102:100:-1,109,110,131:115:-8
 
 
-
-### HyperMesh
+### HyperMesh Format
 
  - from the GUI:
 
         "el 100,101,102,109,110,115,123,131"
 
- - another format:
- -
+ - from the GUI (another format):
+
         "el 100-102,109-110,115,123,131"
 
+### Abaqus Format
+
+ - from the *.inp file:
+
+        **
+        *ELEMENT,TYPE=S4,ELSET=MY_ELEMENTS_PROP
+            100,       101,       102,       109,       110
+            110,       115,       123,       131**NAME MY_ELEMENTS_PROP
+        *
+        **
 
 
-### Calc / Excel
+### Calc / Excel Format
 
- - in line:
+ - by row:
 
-         "100,101,102,109,110,115,123,131"
+         "100";"101";"102";"109";"110";"115";"123";"131";
 
-- or in column:
+- by column:
 
         "100"
         "101"
@@ -137,8 +157,6 @@ In the following examples, we consider the same list of identifiers: `"100, 101,
         "115"
         "123"
         "131"
-
-
 
 
 ## Build
@@ -157,7 +175,7 @@ coming soon
 
 - **unpacking**: conversion of a *packed* range (ex: "5:9") to an *unpacked* range (ex: "5 6 7 8 9"), and vice versa.
 
-- **interval**: range with a step (ex: "200:300:10").
+- **interval**: range with a step (ex: "200:300:15").
 
 
 
