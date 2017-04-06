@@ -22,13 +22,42 @@
  * SOFTWARE.
  */
 
-#include "mainwindow.h"
-#include <QtWidgets/QApplication>
+#ifndef RANGE_H
+#define RANGE_H
 
-int main(int argc, char *argv[])
+#include <QtCore/QString>
+
+typedef int Identifier;
+
+class Range
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
-}
+public:
+    explicit Range(const Identifier _from = 0,
+                   const Identifier _to = 0, const int _by = 0);
+
+    inline int count() const;
+    inline bool isEmpty() const;
+    void clear();
+
+    /* Setters */
+    void setRange(const Identifier _from,
+                  const Identifier _to = 0, const int _by = 0);
+
+    /* Getters */
+    inline Identifier from() const { return m_from; }
+    inline Identifier to() const { return m_to; }
+    inline int by() const { return m_by; }
+
+    /* Boolean Operations */
+    bool operator==(const Range &other) const;
+    bool operator!=(const Range &other) const;
+
+private:
+    Identifier m_from;
+    Identifier m_to;
+    int m_by;
+    void simplify();
+
+};
+
+#endif // RANGE_H

@@ -22,13 +22,56 @@
  * SOFTWARE.
  */
 
-#include "mainwindow.h"
-#include <QtWidgets/QApplication>
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+#include <QMainWindow>
+
+class RangeListModel;
+
+namespace Ui {
+class MainWindow;
 }
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
+protected:
+    void closeEvent(QCloseEvent *event);
+
+private Q_SLOTS:
+    void add();
+    void remove();
+    void removeSelected();
+    void boolean();
+
+    void selectAll();
+    void copy();
+    void copyAll();
+
+    void clear();
+
+    void pack();
+    void unpack();
+
+    void about();
+
+    void updateCounterText(int count);
+    void showContextMenu(const QPoint &pos);
+
+private:
+    Ui::MainWindow *ui;
+    RangeListModel *m_rangeListModel;
+
+    void createActions();
+    void createMenus();
+    void createContextMenu();
+
+};
+
+#endif // MAINWINDOW_H

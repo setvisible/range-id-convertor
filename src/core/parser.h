@@ -22,13 +22,49 @@
  * SOFTWARE.
  */
 
-#include "mainwindow.h"
-#include <QtWidgets/QApplication>
+#ifndef PARSER_H
+#define PARSER_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
-}
+#include "rangelist.h"
+
+class Parser
+{    
+    /* Q_DISABLE_COPY(Parser) */
+    Parser(const Parser &) = delete;
+    Parser &operator=(const Parser &) = delete;
+
+private:
+    explicit Parser();
+    static Parser* m_instance;
+
+public:
+    static Parser* instance();
+    static void deleteInstance();
+    ~Parser();
+
+    RangeListPtr parse(const QString &text) const;
+
+private:
+    enum TokenType {
+        TOKEN_UNKNOWN,
+        TOKEN_NUMBER,
+        TOKEN_THRU,
+        TOKEN_STEP,
+        TOKEN_EXCEPT,
+        TOKEN_STREAM_END
+    };
+
+    struct Token {
+        explicit Token() : type(TOKEN_UNKNOWN), value(-1) {}
+        explicit Token(TokenType _type, int _value = -1) : type(_type), value(_value) {}
+        TokenType type;
+        int value;
+    };
+
+    QList<Token> tokenize(const QString &text) const;
+
+};
+
+
+
+#endif // PARSER_H

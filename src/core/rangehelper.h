@@ -22,13 +22,29 @@
  * SOFTWARE.
  */
 
-#include "mainwindow.h"
-#include <QtWidgets/QApplication>
+#ifndef RANGEHELPER_H
+#define RANGEHELPER_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
-}
+#include "range.h"
+
+class RangeHelper
+{    
+    /* Q_DISABLE_COPY(Parser) */
+    RangeHelper(const RangeHelper &) = delete;
+    RangeHelper &operator=(const RangeHelper &) = delete;
+
+private:
+    explicit RangeHelper();
+    static RangeHelper* m_instance;
+
+public:
+    static RangeHelper* instance();
+    static void deleteInstance();
+    ~RangeHelper();
+    
+    QString toPackedString(const Range &range) const;
+    QStringList toUnpackedStringList(const Range &range) const;
+
+};
+
+#endif // RANGEHELPER_H

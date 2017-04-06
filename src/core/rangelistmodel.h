@@ -22,13 +22,43 @@
  * SOFTWARE.
  */
 
-#include "mainwindow.h"
-#include <QtWidgets/QApplication>
+#ifndef RANGELISTMODEL_H
+#define RANGELISTMODEL_H
 
-int main(int argc, char *argv[])
+#include <Core/RangeList>
+#include <QtCore/QAbstractItemModel>
+
+class RangeListModel : public QAbstractListModel
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
-}
+    Q_OBJECT
+    Q_PROPERTY(bool isPacked READ isPacked WRITE setPacked)
+
+public:
+    explicit RangeListModel(QObject *parent = Q_NULLPTR);
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
+
+
+    void clear();
+    void add(const QString &text);
+    void remove(const QString &text);
+
+    void setPacked(bool packed);
+    bool isPacked() const;
+
+Q_SIGNALS:
+    void countChanged(int count);
+
+private:
+    Q_DISABLE_COPY(RangeListModel)
+    bool m_packed;
+    RangeList m_ranges; // always packed
+
+    QList<QString> lst;
+
+    void _q_synchonize();
+
+};
+
+#endif // RANGELISTMODEL_H
