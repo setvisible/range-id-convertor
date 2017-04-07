@@ -35,8 +35,8 @@ public:
     explicit Range(const Identifier _from = 0,
                    const Identifier _to = 0, const int _by = 0);
 
-    inline int count() const;
-    inline bool isEmpty() const;
+    int count() const;
+    bool isEmpty() const;
     void clear();
 
     /* Setters */
