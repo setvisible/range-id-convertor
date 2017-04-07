@@ -27,13 +27,13 @@ Moreover, these ID ranges are often *packed*. This makes unpacking quite **unfri
 
 1. Paste it to Excel, as a column (replacing all 'spaces' by 'end-of-line' characters):
 
-        31276964
-        31276974
-        31276989:31277019:10
-        31277028
-        31277075
-        31280111:31280129:6
-        31292327
+        1: 31276964
+        2: 31276974
+        3: 31276989:31277019:10
+        4: 31277028
+        5: 31277075
+        6: 31280111:31280129:6
+        7: 31292327
 
 
 As you see here, some identifiers are *packed* (here, lines 3 and 6).
@@ -44,8 +44,9 @@ How to expand them quickly?
 
 The solution is to paste the identifiers in **RangeIDConvertor**.
 
-- RangeIDConvertor expands the ID ranges.
-- RangeIDConvertor converts them to the specific format of a pre/post-processing tool.
+- RangeIDConvertor expands all the ID ranges.
+- RangeIDConvertor converts them to the format of a specific tool.
+
 
 
 ## Installation
@@ -56,11 +57,31 @@ Download the most recent package from the [download](https://github.com/setvisib
 
 ## Usage
 
-Just copy-n-paste:
+Just copy-n-paste.
 
+### Quick tutorial
 
-[screenshot]
+1) **Add** the IDs
 
+![Add IDs](screenshot/01_add.png)
+
+2) Paste the IDs from your favorite pre/post-processing tool
+
+![IDs from Patran](screenshot/02_patran_range.png)
+
+3) Click **Pack** or **Unpack** to choose the output format
+
+![Packed list](screenshot/03_packed.png)
+
+![Unpacked list](screenshot/04_unpacked.png)
+
+4) Select and copy the IDs (with **Copy** or *Ctrl+C*)
+
+![Copy](screenshot/05_copy.png)
+
+6) Paste them to another pre/post-processing tool (with *Ctrl+V*)
+
+![Paste to Calc](screenshot/06_paste_to_calc.png)
 
 
 ## Format diversity
@@ -161,7 +182,16 @@ Remark: In the following examples, we consider the same list of identifiers: `10
 
 ## Build
 
-coming soon
+1. Download `rangeidconvertor-src.tar.gz`.
+
+2. Unzip:
+
+        $ tar zxvf rangeidconvertor-src.tar.gz
+        $ cd rangeidconvertor-src/
+
+3. Build with Qt
+
+     Compile and run `RangeIDConvertor.pro`.
 
 
 ## Glossary
