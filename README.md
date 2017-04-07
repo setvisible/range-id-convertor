@@ -71,9 +71,7 @@ Just copy-n-paste.
 
 3) Click **Pack** or **Unpack** to choose the output format
 
-![Packed list](screenshot/03_packed.png)
-
-![Unpacked list](screenshot/04_unpacked.png)
+![Packed/Unpacked list](screenshot/03_pack_unpacked.png)
 
 4) Select and copy the IDs (with **Copy** or *Ctrl+C*)
 
