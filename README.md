@@ -187,9 +187,30 @@ Remark: In the following examples, we consider the same list of identifiers: `10
         $ tar zxvf rangeidconvertor-src.tar.gz
         $ cd rangeidconvertor-src/
 
-3. Build with Qt
+3. Build with [QtCreator](https://qt-project.org/ "https://qt-project.org/").
 
      Compile and run `RangeIDConvertor.pro`.
+
+
+## Deployment
+
+### Windows
+
+To deploy the application on Windows, we must make sure that the relevant DLLs and the executable are in the same directory.
+
+1. Go to the `Release` build directory.
+
+        $ mkdir RangeIDConvertor-v1.0-win32-release
+        $ cd .\RangeIDConvertor-v1.0-win32-release
+        $ cp D:\path\to\RangeIDConvertor.exe .\
+
+2. Use the [Qt's Windows Deployment Tool](https://qt-project.org/qtdoc/570/windows-deployment.html#the-windows-deployment-tool "https://qt-project.org/qtdoc/570/windows-deployment.html#the-windows-deployment-tool").
+
+        $ windeployqt .\
+
+3. Zip and publish.
+
+        $ tar RangeIDConvertor-v1.0-win32-release/
 
 
 ## Glossary
@@ -210,5 +231,3 @@ Remark: In the following examples, we consider the same list of identifiers: `10
 ## License
 
 The code is released under the [MIT License](LICENSE "LICENSE").
-
-Copyright (c) 2017 Sebastien Vavassori
