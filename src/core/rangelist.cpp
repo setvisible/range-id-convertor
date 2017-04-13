@@ -56,20 +56,23 @@ int RangeList::countRanges() const
 
 /***********************************************************************************
  ***********************************************************************************/
-bool RangeList::add(const RangeListPtr other)
+void RangeList::add(const RangeListPtr other)
 {
-    return this->add(other->ranges());
+    this->add(other->ranges());
 }
 
-bool RangeList::add(const Range &range)
+void RangeList::add(const Range &range)
 {
     QList<Range> ranges;
     ranges << range;
-    return this->add( ranges );
+    this->add( ranges );
 }
 
-bool RangeList::add(const QList<Range> ranges)
+void RangeList::add(const QList<Range> ranges)
 {
+    if (ranges.isEmpty())
+        return;
+
     /// \todo reimplement this method for large ranges like 1:10000000
 
     QSet<int> currentSet = _q_expand( m_ranges );
@@ -82,25 +85,27 @@ bool RangeList::add(const QList<Range> ranges)
     m_ranges.clear();
     m_ranges.append(p);
 
-    return true;
 }
 
 /***********************************************************************************
  ***********************************************************************************/
-bool RangeList::remove(const RangeListPtr other)
+void RangeList::remove(const RangeListPtr other)
 {
-    return this->remove(other->ranges());
+    this->remove(other->ranges());
 }
 
-bool RangeList::remove(const Range &range)
+void RangeList::remove(const Range &range)
 {
     QList<Range> ranges;
     ranges << range;
-    return this->remove( ranges );
+    this->remove( ranges );
 }
 
-bool RangeList::remove(const QList<Range> ranges)
+void RangeList::remove(const QList<Range> ranges)
 {
+    if (ranges.isEmpty())
+        return;
+
     /// \todo reimplement this method for large ranges like 1:10000000
 
     QSet<int> currentSet = _q_expand( m_ranges );
@@ -112,8 +117,6 @@ bool RangeList::remove(const QList<Range> ranges)
 
     m_ranges.clear();
     m_ranges.append(p);
-
-    return true;
 }
 
 /***********************************************************************************

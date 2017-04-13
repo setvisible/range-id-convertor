@@ -47,14 +47,13 @@ public:
     int countRanges() const; /* for TESTS purpose */
 
     /* BOOLEAN OPERATION */
-    bool add(const RangeListPtr other);
-    bool add(const Range &range);
-    bool add(const QList<Range> ranges);
+    void add(const RangeListPtr other);
+    void add(const Range &range);
+    void add(const QList<Range> ranges);
 
-    bool remove(const RangeListPtr other);
-    bool remove(const Range &range);
-    bool remove(const QList<Range> ranges);
-
+    void remove(const RangeListPtr other);
+    void remove(const Range &range);
+    void remove(const QList<Range> ranges);
 
     bool operator==(const RangeList &other) const;
     bool operator!=(const RangeList &other) const;
