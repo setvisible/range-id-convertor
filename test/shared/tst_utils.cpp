@@ -37,16 +37,16 @@ void tst_Utils::test_toRangeList()
     QList<Range> expected;
     expected << Range(1);
     expected << Range(2);
-    expected << Range(3);
     expected << Range(4);
-    expected << Range(10,20,5);
+    expected << Range(7);
+    expected << Range(11,21,5);
     expected << Range(300,321);
     expected << Range(666,660,-2);
 
     // When
     RangeListPtr actual
             = Tests::Utils::toRangeList(
-                QLatin1String("1 2 3 4 10:20:5     300:321 666:660:-2"));
+                QLatin1String("1 2 4 7 11:21:5 300:321 660:666:2"));
 
     // Then
     QCOMPARE(actual->ranges(), expected);
@@ -63,7 +63,7 @@ void tst_Utils::test_toIntSet()
     // When
     QSet<int>  actual
             = Tests::Utils::toIntSet(
-                QLatin1String("1 2 3 4 10 20     300 321 -66 0"));
+                QLatin1String("1 2 3 4 10 20 300 321 -66 0"));
 
     // Then
     QCOMPARE(actual, expected);

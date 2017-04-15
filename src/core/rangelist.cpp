@@ -33,8 +33,13 @@ RangeList::RangeList()
 {
 }
 
-/***********************************************************************************
- ***********************************************************************************/
+/*! \brief Clear the range list.
+ */
+void RangeList::clear()
+{
+    m_ranges.clear();
+}
+
 /*! \brief Returns the number of unique identifiers in the RangeList.
  */
 int RangeList::count() const
@@ -46,13 +51,19 @@ int RangeList::count() const
     return count;
 }
 
-/*! \brief For TESTS purpose
- *  \internal
+/*! \internal
+ * For TESTS purpose.
  */
 int RangeList::countRanges() const
 {
     return m_ranges.count();
 }
+
+inline QList<Range> RangeList::ranges() const
+{
+    return m_ranges;
+}
+
 
 /***********************************************************************************
  ***********************************************************************************/
@@ -68,15 +79,13 @@ void RangeList::add(const Range &range)
     this->add( ranges );
 }
 
-void RangeList::add(const QList<Range> ranges)
+void RangeList::add(const QList<Range> &ranges)
 {
     if (ranges.isEmpty())
         return;
 
-    /// \todo reimplement this method for large ranges like 1:10000000
-
     QSet<int> currentSet = _q_expand( m_ranges );
-    QSet<int> addedSet = _q_expand( ranges ); // Ca peut faire tres mal !
+    QSet<int> addedSet = _q_expand( ranges );
 
     currentSet += addedSet;
 
@@ -84,7 +93,6 @@ void RangeList::add(const QList<Range> ranges)
 
     m_ranges.clear();
     m_ranges.append(p);
-
 }
 
 /***********************************************************************************
@@ -101,15 +109,13 @@ void RangeList::remove(const Range &range)
     this->remove( ranges );
 }
 
-void RangeList::remove(const QList<Range> ranges)
+void RangeList::remove(const QList<Range> &ranges)
 {
     if (ranges.isEmpty())
         return;
 
-    /// \todo reimplement this method for large ranges like 1:10000000
-
     QSet<int> currentSet = _q_expand( m_ranges );
-    QSet<int> removedSet = _q_expand( ranges ); // Ca peut faire tres mal !
+    QSet<int> removedSet = _q_expand( ranges );
 
     currentSet -= removedSet;
 
@@ -140,9 +146,14 @@ bool RangeList::operator!=(const RangeList &other) const
  * Example:
  *    {"5" "10:12:1" "20" "25"} -> {5, 10, 11, 12, 20, 25}
  *
+ * \remark
+ * Since this method handles QSet<int>, it can take a notable time for adding large
+ * ranges. Noticable issues appear with ranges containing more than 1 million of
+ * identifiers (ex: "1:1000000").
+ *
  * \sa _q_collapse()
  */
-inline QSet<int> RangeList::_q_expand(const QList<Range> ranges)
+inline QSet<int> RangeList::_q_expand(const QList<Range> &ranges)
 {
     QSet<int> res;
     foreach (auto item, ranges) {
@@ -153,27 +164,29 @@ inline QSet<int> RangeList::_q_expand(const QList<Range> ranges)
     return res;
 }
 
+/***********************************************************************************
+ ***********************************************************************************/
 /*! \brief Collapse the given \a identifiers.
  * Return a list of ranges corresponding to compacted \a identifiers.
+ *
  * Example:
  *    {5, 10, 11, 12, 20, 25} -> {"5" "10:12:1" "20" "25"}
+ *
+ * \remark It must only collapse if at least 3 values are continuous.
+ *
  * \sa _q_expand()
  */
 inline QList<Range> RangeList::_q_collapse(const QSet<int> &identifiers)
 {
-    /* ************************************************************ */
-    /* REMARK:                                                      */
-    /* It must only collapse if at least 3 values are continuous.   */
-    /* ************************************************************ */
-
     QList<Range> res;
+
     QList<int> list = identifiers.toList();
-    if (list.isEmpty())
+    if (list.isEmpty()) {
         return res;
+    }
 
     qSort(list);
-
-    /* At this point, the list is sorted and duplicate-free. */
+    // Rem: At this point, the list is sorted and duplicate-free.
 
     const int count = list.count();
 

@@ -40,42 +40,32 @@ class RangeList
 public:
     explicit RangeList();
 
-    inline QList<Range> ranges() const { return m_ranges; }
-
-    void clear() {  m_ranges.clear(); }
+    void clear();
     int count() const;
-    int countRanges() const; /* for TESTS purpose */
+    int countRanges() const;
 
-    /* BOOLEAN OPERATION */
+    inline QList<Range> ranges() const;
+
     void add(const RangeListPtr other);
     void add(const Range &range);
-    void add(const QList<Range> ranges);
+    void add(const QList<Range> &ranges);
 
     void remove(const RangeListPtr other);
     void remove(const Range &range);
-    void remove(const QList<Range> ranges);
+    void remove(const QList<Range> &ranges);
 
     bool operator==(const RangeList &other) const;
     bool operator!=(const RangeList &other) const;
 
-    //  Range *first() const { return m_first; }
-    //  Range *constBegin() const { return m_first; }
-    //  Range *constEnd() const { return m_last; }
-
 protected:
-    static inline QSet<int> _q_expand(const QList<Range> ranges);
+    static inline QSet<int> _q_expand(const QList<Range> &ranges);
     static inline QList<Range> _q_collapse(const QSet<int> &identifiers);
 
 private:
-    /* CANONICAL RANGES */
-    // Returns the canonical ranges, i.e. the shortest sorted
-    // list of ranges without duplicates identifiers.
-    QList<Range> m_ranges;
+    QList<Range> m_ranges; ///< Canonical ranges.
+    ///  This is the shortest sorted list of
+    ///  ranges without duplicates identifiers.
 
 };
-
-
-
-
 
 #endif // RANGELIST_H
