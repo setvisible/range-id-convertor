@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     ui->listView->setModel(m_rangeListModel);
     ui->listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    ui->listView->setUniformItemSizes(true);  // Improves perfs for large list.
 
     connect(m_rangeListModel, SIGNAL(countChanged(int)), this, SLOT(updateCounterText(int)));
 
