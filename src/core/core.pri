@@ -3,7 +3,8 @@ HEADERS  += \
     $$PWD/range.h \
     $$PWD/rangehelper.h \
     $$PWD/rangelist.h \
-    $$PWD/rangelistmodel.h
+    $$PWD/rangelistmodel.h \
+    $$PWD/rangelistmodel_p.h
 
 SOURCES += \
     $$PWD/parser.cpp \
