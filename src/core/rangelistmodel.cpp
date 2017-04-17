@@ -39,7 +39,7 @@
 
 
 /***********************************************************************************
- * PIMPL PRIVATE METHODS
+ * PIMPL METHODS
  ***********************************************************************************/
 RangeListModelPrivate::RangeListModelPrivate(RangeListModel *parent) : q_ptr(parent)
   , m_isPacked(true)
