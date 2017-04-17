@@ -33,35 +33,47 @@ RangeList::RangeList()
 {
 }
 
-/*! \brief Clear the range list.
+/*!
+ * \brief Clear the range list.
  */
 void RangeList::clear()
 {
-    m_ranges.clear();
+    m_canonicalRanges.clear();
 }
 
-/*! \brief Returns the number of unique identifiers in the RangeList.
+/*!
+ * \brief Returns the number of unique identifiers in the RangeList.
  */
 int RangeList::count() const
 {
     int count = 0;
-    foreach (auto item, m_ranges) {
+    foreach (auto item, m_canonicalRanges) {
         count += item.count();
     }
     return count;
 }
 
-/*! \internal
- * For TESTS purpose.
+/*!
+ * \brief [FOR UNIT TEST ONLY] Returns the number of the ranges.
+ *
+ * \code
+ *   // assuming RangeList ranges = { "1:5:1", "8", "9" }
+ *   ranges.count();       // returns 7 (contains 7 identifiers: 1,2,3,4,5,8,9)
+ *   ranges.countRanges(); // returns 3 (contains 3 ranges)
+ * \endcode
+ *
  */
 int RangeList::countRanges() const
 {
-    return m_ranges.count();
+    return m_canonicalRanges.count();
 }
 
+/*!
+ * \brief Returns the packed (canonical) ranges stored in this range list.
+ */
 inline QList<Range> RangeList::ranges() const
 {
-    return m_ranges;
+    return m_canonicalRanges;
 }
 
 
@@ -84,15 +96,15 @@ void RangeList::add(const QList<Range> &ranges)
     if (ranges.isEmpty())
         return;
 
-    QSet<int> currentSet = _q_expand( m_ranges );
+    QSet<int> currentSet = _q_expand( m_canonicalRanges );
     QSet<int> addedSet = _q_expand( ranges );
 
     currentSet += addedSet;
 
     QList<Range> p = _q_collapse(currentSet);
 
-    m_ranges.clear();
-    m_ranges.append(p);
+    m_canonicalRanges.clear();
+    m_canonicalRanges.append(p);
 }
 
 /***********************************************************************************
@@ -114,22 +126,22 @@ void RangeList::remove(const QList<Range> &ranges)
     if (ranges.isEmpty())
         return;
 
-    QSet<int> currentSet = _q_expand( m_ranges );
+    QSet<int> currentSet = _q_expand( m_canonicalRanges );
     QSet<int> removedSet = _q_expand( ranges );
 
     currentSet -= removedSet;
 
     QList<Range> p = _q_collapse(currentSet);
 
-    m_ranges.clear();
-    m_ranges.append(p);
+    m_canonicalRanges.clear();
+    m_canonicalRanges.append(p);
 }
 
 /***********************************************************************************
  ***********************************************************************************/
 bool RangeList::operator==(const RangeList &other) const
 {
-    return m_ranges == other.ranges();
+    return m_canonicalRanges == other.ranges();
 }
 
 bool RangeList::operator!=(const RangeList &other) const
@@ -141,7 +153,8 @@ bool RangeList::operator!=(const RangeList &other) const
 
 /***********************************************************************************
  ***********************************************************************************/
-/*! \brief Expand the given \a ranges to an unsorted set of unique identifiers.
+/*!
+ * \brief Expand the given \a ranges to an unsorted set of unique identifiers.
  *
  * Example:
  *    {"5" "10:12:1" "20" "25"} -> {5, 10, 11, 12, 20, 25}
@@ -166,7 +179,8 @@ inline QSet<int> RangeList::_q_expand(const QList<Range> &ranges)
 
 /***********************************************************************************
  ***********************************************************************************/
-/*! \brief Collapse the given \a identifiers.
+/*!
+ * \brief Collapse the given \a identifiers.
  * Return a list of ranges corresponding to compacted \a identifiers.
  *
  * Example:
@@ -204,7 +218,7 @@ inline QList<Range> RangeList::_q_collapse(const QSet<int> &identifiers)
 
         val_0 = list.at(i);
 
-        if (val_0 == previous_val_0)   // skip duplicate
+        if (val_0 == previous_val_0)   // Skip duplicate
             continue;
 
         previous_val_0 = val_0;
@@ -226,14 +240,14 @@ inline QList<Range> RangeList::_q_collapse(const QSet<int> &identifiers)
             }
         }
 
-        if (range_begin != 0) { /* compact insertion */
+        if (range_begin != 0) { // Compact insertion
 
             Range r(range_begin, range_end, range_step);
             res << r;
             range_begin = 0;
             i++;
 
-        } else { /* normal insertion */
+        } else { // Normal insertion
 
             Range r(val_0, val_0, 1);
             res << r;

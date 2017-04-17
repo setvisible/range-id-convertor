@@ -62,7 +62,7 @@ protected:
     static inline QList<Range> _q_collapse(const QSet<int> &identifiers);
 
 private:
-    QList<Range> m_ranges; ///< Canonical ranges.
+    QList<Range> m_canonicalRanges; ///< Canonical ranges.
     ///  This is the shortest sorted list of
     ///  ranges without duplicates identifiers.
 
