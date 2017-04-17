@@ -22,39 +22,25 @@
  * SOFTWARE.
  */
 
-#ifndef RANGELISTMODEL_H
-#define RANGELISTMODEL_H
+#ifndef RANGELISTMODEL_P_H
+#define RANGELISTMODEL_P_H
 
-#include <Core/RangeList>
-#include <QtCore/QAbstractItemModel>
+#include "rangelistmodel.h"
 
-class RangeListModelPrivate;
-
-class RangeListModel : public QAbstractListModel
+class RangeListModelPrivate
 {
-    Q_OBJECT
-    Q_PROPERTY(bool isPacked READ isPacked WRITE setPacked)
-
 public:
-    explicit RangeListModel(QObject *parent = Q_NULLPTR);
+    RangeListModelPrivate(RangeListModel *parent);
+    RangeListModel *q_ptr;
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
+    bool m_isPacked;
 
-    void clear();
-    void add(const QString &text);
-    void remove(const QString &text);
+    QList<QString> m_displayedList; ///< Displayed list.
+    /// This is the packed or unpacked representation of 'm_internalRangeList'.
 
-    void setPacked(bool packed);
-    bool isPacked() const;
+    RangeList m_internalRangeList; ///< Internal data (always packed)
 
-Q_SIGNALS:
-    void countChanged(int count);
-
-private:
-    Q_DISABLE_COPY(RangeListModel)
-    QScopedPointer<RangeListModelPrivate>::pointer d; // pimpl, to hide the sync mechanism.
-
+    void synchonize();
 };
 
-#endif // RANGELISTMODEL_H
+#endif // RANGELISTMODEL_P_H
