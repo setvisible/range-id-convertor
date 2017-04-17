@@ -39,7 +39,6 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
 
-
     void clear();
     void add(const QString &text);
     void remove(const QString &text);
@@ -52,11 +51,11 @@ Q_SIGNALS:
 
 private:
     Q_DISABLE_COPY(RangeListModel)
-    bool m_packed;
-    RangeList m_ranges; // always packed
+    bool m_isPacked;
+    QList<QString> m_displayedList; ///< Displayed list.
+    /// This is the packed or unpacked representation of 'm_internalRangeList'.
 
-    QList<QString> lst;
-
+    RangeList m_internalRangeList; ///< Internal data (always packed)
     void _q_synchonize();
 
 };

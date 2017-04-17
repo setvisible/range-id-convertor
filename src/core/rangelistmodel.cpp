@@ -29,6 +29,11 @@
 #include <Core/RangeHelper>
 #include <Core/RangeList>
 
+RangeListModelPrivate::RangeListModelPrivate()
+{
+
+}
+
 
 /*!
  * \class RangeListModel
@@ -39,7 +44,7 @@
 
 RangeListModel::RangeListModel(QObject *parent)
     : QAbstractListModel(parent)
-    , m_packed(true)
+    , m_isPacked(true)
 {
     this->clear();
 }
@@ -53,7 +58,7 @@ int RangeListModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return lst.count();
+    return m_displayedList.count();
 }
 
 /*!
@@ -61,10 +66,10 @@ int RangeListModel::rowCount(const QModelIndex &parent) const
  */
 QVariant RangeListModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < 0 || index.row() >= lst.size())
+    if (index.row() < 0 || index.row() >= m_displayedList.size())
         return QVariant();
     if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return lst.at(index.row());
+        return m_displayedList.at(index.row());
     return QVariant();
 }
 
@@ -72,67 +77,81 @@ QVariant RangeListModel::data(const QModelIndex &index, int role) const
  ***********************************************************************************/
 void RangeListModel::setPacked(bool packed)
 {
-    if (m_packed == packed)
+    if (m_isPacked == packed)
         return;
 
     emit beginResetModel();
-    m_packed = packed;
+    m_isPacked = packed;
     _q_synchonize();
     emit endResetModel();
 }
 
 bool RangeListModel::isPacked() const
 {
-    return m_packed;
-}
-
-void RangeListModel::_q_synchonize()
-{
-    RangeHelper *rh = RangeHelper::instance();
-    lst.clear();
-    foreach (auto range, m_ranges.ranges()) {
-        if (m_packed) {
-            QString str = rh->toPackedString( range );
-            lst.append( str );
-        } else {
-            QStringList strlist = rh->toUnpackedStringList( range );
-            lst.append( strlist );
-        }
-    }
+    return m_isPacked;
 }
 
 void RangeListModel::clear()
 {
     emit beginResetModel();
-    m_ranges.clear();
+    m_internalRangeList.clear();
     _q_synchonize();
     emit endResetModel();
-    emit countChanged(m_ranges.count());
+    emit countChanged(m_internalRangeList.count());
 }
 
+/***********************************************************************************
+ ***********************************************************************************/
+/*!
+ * \brief Inserts the given \a text into the model.
+ * \sa RangeListModel::remove()
+ */
 void RangeListModel::add(const QString &text)
 {
     if (!text.isEmpty()) {
         emit beginResetModel();
         Parser *p = Parser::instance();
-        const RangeListPtr range_list = p->parse( text );
-        m_ranges.add( range_list );
+        const RangeListPtr parsedList = p->parse( text );
+        m_internalRangeList.add( parsedList );
         _q_synchonize();
         emit endResetModel();
-        emit countChanged(m_ranges.count());
+        emit countChanged(m_internalRangeList.count());
     }
 }
 
+/*!
+ * \brief Removes the given \a text from the model.
+ * \sa RangeListModel::add()
+ */
 void RangeListModel::remove(const QString &text)
 {
     if (!text.isEmpty()) {
         emit beginResetModel();
         Parser *p = Parser::instance();
-        const RangeListPtr range_list = p->parse( text );
-        m_ranges.remove( range_list );
+        const RangeListPtr parsedList = p->parse( text );
+        m_internalRangeList.remove( parsedList );
         _q_synchonize();
         emit endResetModel();
-        emit countChanged(m_ranges.count());
+        emit countChanged(m_internalRangeList.count());
     }
 }
 
+/***********************************************************************************
+ ***********************************************************************************/
+/*! \internal
+ *  \brief Synchronize \a m_internalRangeList and \a m_displayedList.
+ */
+void RangeListModel::_q_synchonize()
+{
+    RangeHelper *rh = RangeHelper::instance();
+    m_displayedList.clear();
+    foreach (auto range, m_internalRangeList.ranges()) {
+        if (m_isPacked) {
+            QString str = rh->toPackedString( range );
+            m_displayedList.append( str );
+        } else {
+            QStringList strlist = rh->toUnpackedStringList( range );
+            m_displayedList.append( strlist );
+        }
+    }
+}
