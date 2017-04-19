@@ -22,39 +22,25 @@
  * SOFTWARE.
  */
 
-#ifndef VERTICALTOOLBAR_H
-#define VERTICALTOOLBAR_H
+#ifndef BOOLEANDIALOG_H
+#define BOOLEANDIALOG_H
 
-#include <QtWidgets/QWidget>
-
-class QAction;
-class QPushButton;
+#include <QtWidgets/QDialog>
 
 namespace Ui {
-class VerticalToolBar;
+class BooleanDialog;
 }
 
-class VerticalToolBar : public QWidget
+class BooleanDialog : public QDialog
 {
     Q_OBJECT
-public:
-    explicit VerticalToolBar(QWidget *parent = 0);
-    ~VerticalToolBar();
 
-    void setAddButton(const QAction *action);
-    void setRemoveButton(const QAction *action);
-    void setBooleanButton(const QAction *action);
-    void setCopyButton(const QAction *action);
-    void setCopyAllButton(const QAction *action);
-    void setPackButton(const QAction *action);
-    void setUnpackButton(const QAction *action);
-    void setClearButton(const QAction *action);
+public:
+    explicit BooleanDialog(QWidget *parent = 0);
+    ~BooleanDialog();
 
 private:
-    Ui::VerticalToolBar *ui;
-    void connectAction(QPushButton *button, const QAction *action);
-    QList<QPushButton *> allPushButtons();
-
+    Ui::BooleanDialog *ui;
 };
 
-#endif // VERTICALTOOLBAR_H
+#endif // BOOLEANDIALOG_H
