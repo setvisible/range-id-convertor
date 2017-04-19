@@ -31,7 +31,7 @@
 
 /*!
  * \class Parser
- * \brief The Parser class parses a input text and returns a list of ranges.
+ * \brief The Parser class parses an input text and returns a list of ranges.
  *
  * Parser is a singleton, you can call it from every where in the code.
  * To do it, you can get the instance with the instance() method.
