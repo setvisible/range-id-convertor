@@ -27,6 +27,7 @@
 
 #include <QMainWindow>
 
+class Exporter;
 class RangeListModel;
 
 namespace Ui {
@@ -66,6 +67,7 @@ private Q_SLOTS:
 
 private:
     Ui::MainWindow *ui;
+    Exporter *m_exporter;
     RangeListModel *m_rangeListModel;
 
     void createActions();

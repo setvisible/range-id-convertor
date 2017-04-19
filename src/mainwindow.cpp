@@ -28,6 +28,7 @@
 #include "about.h"
 #include "globals.h"
 
+#include <Core/Exporter>
 #include <Core/RangeListModel>
 #include <GUI/BooleanDialog>
 #include <GUI/VerticalToolBar>
@@ -41,6 +42,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
   , ui(new Ui::MainWindow)
+  , m_exporter(new Exporter(this))
   , m_rangeListModel(new RangeListModel(this))
 {
     ui->setupUi(this);
@@ -53,16 +55,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     ui->listView->setModel(m_rangeListModel);
     ui->listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    ui->listView->setUniformItemSizes(true);  // Improves perfs for large list.
+    ui->listView->setUniformItemSizes(true);  /* Improves perfs for large list. */
 
     connect(m_rangeListModel, SIGNAL(countChanged(int)), this, SLOT(updateCounterText(int)));
 
+    /* Populate ComboBox */
+    m_exporter->connectComboBox(ui->comboBoxOutput);
 
-    ui->comboBoxOutput->setCurrentIndex(2);
-    ui->comboBoxOutput->setEnabled(false);
 
 #ifdef QT_DEBUG
-    this->setWindowTitle(QString("%0 - **debug mode**").arg(STR_APPLICATION_NAME));
+    const QString title = this->windowTitle();
+    this->setWindowTitle(QString("%0 - **debug mode**").arg(title));
     m_rangeListModel->add("1001");
     m_rangeListModel->add("1002");
     m_rangeListModel->add("1009");
@@ -134,14 +137,14 @@ void MainWindow::selectAll()
 
 void MainWindow::copy()
 {
-    QString text;
+    QStringList data;
     QItemSelectionModel *selectionModel = ui->listView->selectionModel();
     QModelIndexList indexes = selectionModel->selectedIndexes();
     QModelIndex index;
     foreach(index, indexes) {
-        text += index.data().toString();
-        text += '\n';
+        data << index.data().toString();
     }
+    QString text = m_exporter->decorate(data);
     QClipboard *clipboard = QGuiApplication::clipboard();
     clipboard->setText(text);
 }

@@ -22,53 +22,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBoxOutput">
-        <item>
-         <property name="text">
-          <string>Calc/Excel (as line, comma-separated)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Calc/Excel (as line, tab-separated)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Calc/Excel (as column)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Nastran Bulk file (comma-separated)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Patran (as packed)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Patran (as unpacked)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Patran Session file</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Femap</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>HyperMesh</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboBoxOutput"/>
       </item>
       <item>
        <spacer name="horizontalSpacer">
