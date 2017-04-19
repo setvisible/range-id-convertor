@@ -44,7 +44,7 @@ public:
     int count() const;
     int countRanges() const;
 
-    inline QList<Range> ranges() const;
+    QList<Range> ranges() const;
 
     void add(const RangeListPtr other);
     void add(const Range &range);
@@ -58,8 +58,8 @@ public:
     bool operator!=(const RangeList &other) const;
 
 protected:
-    static inline QSet<int> _q_expand(const QList<Range> &ranges);
-    static inline QList<Range> _q_collapse(const QSet<int> &identifiers);
+    static QSet<int> _q_expand(const QList<Range> &ranges);
+    static QList<Range> _q_collapse(const QSet<int> &identifiers);
 
 private:
     QList<Range> m_canonicalRanges; ///< Canonical ranges.

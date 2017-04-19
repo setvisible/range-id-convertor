@@ -71,7 +71,7 @@ int RangeList::countRanges() const
 /*!
  * \brief Returns the packed (canonical) ranges stored in this range list.
  */
-inline QList<Range> RangeList::ranges() const
+QList<Range> RangeList::ranges() const
 {
     return m_canonicalRanges;
 }
@@ -166,7 +166,7 @@ bool RangeList::operator!=(const RangeList &other) const
  *
  * \sa _q_collapse()
  */
-inline QSet<int> RangeList::_q_expand(const QList<Range> &ranges)
+QSet<int> RangeList::_q_expand(const QList<Range> &ranges)
 {
     QSet<int> res;
     foreach (auto item, ranges) {
@@ -190,7 +190,7 @@ inline QSet<int> RangeList::_q_expand(const QList<Range> &ranges)
  *
  * \sa _q_expand()
  */
-inline QList<Range> RangeList::_q_collapse(const QSet<int> &identifiers)
+QList<Range> RangeList::_q_collapse(const QSet<int> &identifiers)
 {
     QList<Range> res;
 
