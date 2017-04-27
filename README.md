@@ -7,7 +7,7 @@
 
 Basically, **it converts a range of identifiers** [1] (ex: node, element, material, .. property ID) from various formats used by *Patran*, *Femap*, *Abaqus*, *HyperMesh*, *Ansys*, *Calc* and *Excel*.
 
-[1] See *glossary* at the end of this document
+[1] See [Glossary](#glossary) at the end of this document
 
 
 ## Description
