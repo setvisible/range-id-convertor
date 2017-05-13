@@ -187,7 +187,7 @@ Remark: In the following examples, we consider the same list of identifiers: `10
         $ tar zxvf rangeidconvertor-src.tar.gz
         $ cd rangeidconvertor-src/
 
-3. Build with [QtCreator](https://qt-project.org/ "https://qt-project.org/").
+3. Build with [QtCreator](https://www.qt.io/developers/ "https://www.qt.io/developers/").
 
      Compile and run `RangeIDConvertor.pro`.
 
@@ -204,7 +204,7 @@ To deploy the application on Windows, we must make sure that the relevant DLLs a
         $ cd .\RangeIDConvertor-v1.0-win32-release
         $ cp D:\path\to\RangeIDConvertor.exe .\
 
-2. Use the [Qt's Windows Deployment Tool](https://qt-project.org/qtdoc/570/windows-deployment.html#the-windows-deployment-tool "https://qt-project.org/qtdoc/570/windows-deployment.html#the-windows-deployment-tool").
+2. Use the [Qt's Windows Deployment Tool](http://doc.qt.io/qt-5/windows-deployment.html#the-windows-deployment-tool "http://doc.qt.io/qt-5/windows-deployment.html#the-windows-deployment-tool").
 
         $ windeployqt .\
 
