@@ -46,18 +46,18 @@ void tst_Parser::test_parse_data()
 {
     QTest::addColumn<QString>("input");
     QTest::addColumn<QString>("rangelist");
-    this->_q_trivial();
-    this->_q_simple();
+ //   this->_q_trivial();
+ //   this->_q_simple();
     this->_q_invalid();
-    this->_q_nastran_bulk_file();
-    this->_q_nastran_bulk_file_except();
-    this->_q_nastran_bulk_file_continuation();
-    this->_q_patran_gui();
-    this->_q_patran_session_group_file();
-    this->_q_abaqus_inp_file();
-    this->_q_femap_gui();
-    this->_q_hypermesh_gui();
-    this->_q_calc_excel_gui();
+  //  this->_q_nastran_bulk_file();
+  //  this->_q_nastran_bulk_file_except();
+  //  this->_q_nastran_bulk_file_continuation();
+  //  this->_q_patran_gui();
+  //  this->_q_patran_session_group_file();
+  //  this->_q_abaqus_inp_file();
+  //  this->_q_femap_gui();
+  //  this->_q_hypermesh_gui();
+  //  this->_q_calc_excel_gui();
 }
 
 void tst_Parser::test_parse()
@@ -119,7 +119,7 @@ void tst_Parser::_q_simple()
 }
 
 void tst_Parser::_q_invalid()
-{
+{/*
     QTest::newRow("alphanumeric") << "0" << "";
     QTest::newRow("alphanumeric") << "abcd" << "";
     QTest::newRow("alphanumeric") << "100a" << "";
@@ -152,6 +152,9 @@ void tst_Parser::_q_invalid()
     QTest::newRow("wrong range") << ":20" << "";
     QTest::newRow("wrong range") << "::1" << "";
     QTest::newRow("wrong range") << ":20:1" << "";
+*/
+    QTest::newRow("wrong range") << "768:77 " << "";
+    //QTest::newRow("wrong range") << "30110768:3011077 " << "";
 
     QTest::newRow("dash separator") << "-15-20" << "";
     QTest::newRow("dash separator") << "-15-19-2" << "";
@@ -313,7 +316,23 @@ void tst_Parser::_q_patran_session_group_file()
                "30110768:30110772 "
                "30110776 " ;
 
+    QTest::newRow("patran ses file with wordcuts")
+            << "\"Node 681\" // @\n"
+               "\"350:6814\" // @\n"
+               "\"20:10 681740:681790\" // @\n"
+               "\":10 682090:682230:1\" // @\n"
+               "\"0 682410:682\" // @\n"
+               "\"430:10 69\" // @\n"
+               "\"1350:691\" // @\n"
+               "\"420:1\" // @\n"
+               "\"0 \" )\n"
+            << "681350:681420:10 681740:681790:10 "
+               "682090:682230:10 682410:682430:10 "
+               "691350:691420:10 " ;
+
+
 }
+
 void tst_Parser::_q_abaqus_inp_file()
 {
     QTest::newRow("abaqus") << "*ELEMENT,TYPE=S4,ELSET=MY 2100 ELEMENTS" << "2100";

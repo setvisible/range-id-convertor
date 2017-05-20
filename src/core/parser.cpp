@@ -145,6 +145,19 @@ RangeListPtr Parser::parse(const QString &text) const
     return ret;
 }
 
+static inline QString depatranize(const QString &text)
+{
+    /*
+     * Remove the lines markers generally found
+     * in the Patran Session files.
+     * Example:          [ "Node 681" // @\n"350:681400" ]
+     *           becomes [ "Node 681350:681400" ]
+     */
+
+    QString ret = text;
+    ret.replace(QLatin1String("\" // @\n\""), QLatin1String(""), Qt::CaseInsensitive);
+    return ret;
+}
 
 QList<Parser::Token> Parser::tokenize(const QString &text) const
 {
@@ -153,12 +166,14 @@ QList<Parser::Token> Parser::tokenize(const QString &text) const
     if (text.isEmpty())
         return ret;
 
+    const QString depatranized = depatranize(text);
+
     QRegularExpression rx_separation_chars("(\\ |\\,|\\.|\\;|\\'|\\\"|\\t|\\r|\\n)");
     QRegularExpression rx_colon_range("^(?<from>\\d+)(:(?<to>\\d+)(:(?<by>[+-]?\\d+))?)?$");
     QRegularExpression rx_dash_range("^(?<from>\\d+)-(?<to>\\d+)$");
     QRegularExpression rx_negative_number("^-\\d+$");
 
-    QStringList segments = text.split(rx_separation_chars, QString::SkipEmptyParts);
+    QStringList segments = depatranized.split(rx_separation_chars, QString::SkipEmptyParts);
 
     for(auto segment : segments) {
 
