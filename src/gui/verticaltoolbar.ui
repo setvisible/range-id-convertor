@@ -32,6 +32,26 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QPushButton" name="pushButton_clear">
+       <property name="text">
+        <string>Clear</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QPushButton" name="pushButton_add">
        <property name="text">
         <string>Add IDs...</string>
@@ -54,33 +74,6 @@
      </item>
      <item>
       <spacer name="verticalSpacer_1">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_copy">
-       <property name="text">
-        <string>Copy</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_copyAll">
-       <property name="text">
-        <string>Copy All</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -120,9 +113,16 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_clear">
+      <widget class="QPushButton" name="pushButton_copy">
        <property name="text">
-        <string>Clear</string>
+        <string>Copy</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_copyAll">
+       <property name="text">
+        <string>Copy All</string>
        </property>
       </widget>
      </item>
