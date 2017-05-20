@@ -139,6 +139,7 @@ void tst_RangeList::test_expand()
     // Then
     QCOMPARE(actual, expected);
 }
+
 void tst_RangeList::test_collapse()
 {
     // Given
