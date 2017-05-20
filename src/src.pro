@@ -29,6 +29,7 @@ include($$PWD/gui/gui.pri)
 
 HEADERS  += \
     $$PWD/about.h \
+    $$PWD/builddefs.h \
     $$PWD/globals.h \
     $$PWD/mainwindow.h
 

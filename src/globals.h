@@ -25,12 +25,23 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include "builddefs.h"
 #include <QtCore/QString>
 
 const QString STR_APPLICATION_NAME("RangeIDConvertor");
-const QLatin1String STR_APPLICATION_VERSION("1.0");
+const QLatin1String STR_APPLICATION_VERSION("1.1.0");
 const QLatin1String STR_APPLICATION_DATE("2017");
 const QString STR_APPLICATION_AUTHOR("Sébastien Vavassori");
+
+/* Something like "2017-05-20_15:36:58" */
+const QString STR_APPLICATION_BUILD =
+        QString("%1-%2-%3_%4:%5:%6")
+        .arg(BUILD_YEAR, 4, 10, QChar('0'))
+        .arg(BUILD_MONTH, 2, 10, QChar('0'))
+        .arg(BUILD_DAY, 2, 10, QChar('0'))
+        .arg(BUILD_HOUR, 2, 10, QChar('0'))
+        .arg(BUILD_MIN, 2, 10, QChar('0'))
+        .arg(BUILD_SEC, 2, 10, QChar('0'));
 
 
 #endif // GLOBALS_H

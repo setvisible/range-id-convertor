@@ -29,9 +29,12 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QString>
 
+
 QString buildAbout(QString paragraphDelimiter)
 {
-    return QString(QString("%0").arg(STR_APPLICATION_NAME) +
+    return QString(QCoreApplication::tr(
+                       "%1 - version %2 - build %3"
+                       ).arg(STR_APPLICATION_NAME, STR_APPLICATION_VERSION, STR_APPLICATION_BUILD) +
                    paragraphDelimiter +
                    QCoreApplication::tr(
                        "Copyright (C) %0 %1"

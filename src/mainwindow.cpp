@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
   , m_rangeListModel(new RangeListModel(this))
 {
     ui->setupUi(this);
-    this->setWindowTitle(STR_APPLICATION_NAME);
+    this->setWindowTitle(QString("%0 v%1").arg(STR_APPLICATION_NAME).arg(STR_APPLICATION_VERSION));
     this->setWindowIcon(QIcon(":/icons/logo/logo_24x24.png"));
 
     createActions();
