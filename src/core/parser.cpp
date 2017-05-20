@@ -132,8 +132,14 @@ RangeListPtr Parser::parse(const QString &text) const
                 }
             }
 
-            Range r(_from, _to, _by);
-            ret->add(r);
+            if ((_by >= 0 && _to >= _from) || (_by < 0 && _from >= _to)) {
+                Range r(_from, _to, _by);
+                ret->add(r);
+            } else {
+                // Error message
+                // qDebug() << "Cannot parse '" << _from << "to" << _to << "'.";
+                // qDebug() <<"The second value MUST be greater than the first value.";
+            }
             continue;
 
         } else {
